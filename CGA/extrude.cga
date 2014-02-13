@@ -1,0 +1,11 @@
+/**
+ * File:    extrude.cga
+ * Created: 13 Feb 2014 16:54:46 GMT
+ * Author:  EHartley
+ */
+version "2013.1"
+
+attr bHeight = 10
+
+@StartRule
+Lot--> extrude(bHeight)
