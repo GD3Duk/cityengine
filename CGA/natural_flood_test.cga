@@ -1,0 +1,43 @@
+/**
+ * File:    floor_test.cga
+ * Created: 4 Feb 2014 16:54:46 GMT
+ * Author:  EHartley
+ */
+
+version "2013.1"
+attr flood_height = 10
+attr building_height = 10
+
+attr buildingColor = "#ffffff"
+attr floodColor = "#0000ff"
+attr waterOpacity = 0.5
+
+Flood-->
+	extrude(flood_height)
+	comp(f){top :water}
+	
+Building-->
+	extrude(flood_height)
+	comp(f){side :wall}
+	
+
+Water-->
+	case touches(inter):	color(floodColor) x
+	else : set(material.opacity, waterOpacity) color(floodColor) x		
+
+wall-->
+	case touches(inter):	color("#ff0000") x
+	else : color(buildingColor) x	
+	
+Init --> extrude(5)
+         split(x) { ~5 : Step }*
+		
+Step --> s('1, '0.7 * (split.index + 1), '1)
+         comp(f) { side: Facade | top: X. }
+	
+Facade --> split(y) { 4 : Floor }*	
+
+Floor --> case touches(intra):
+              X
+          else:
+             color("#ff0000") X
